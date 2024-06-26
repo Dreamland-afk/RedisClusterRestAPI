@@ -18,11 +18,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
+		System.out.println("User");
 		User user = iuserRepo.findByUserName(username);
 		
 		if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
+		
+		System.out.println(user);
 		
 		UserDetailsImpl  userDetailsImpl = new UserDetailsImpl(user);
 		

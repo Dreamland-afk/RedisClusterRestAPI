@@ -3,49 +3,55 @@ package com.arc.redis.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.arc.redis.service.UserDetailsServiceImpl;
+
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
 	@Autowired
-	UserDetailsService UserDetailsService;
-	
+	UserDetailsServiceImpl detailsServiceImpl;
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeHttpRequests((authorize) -> authorize
-//				.requestMatchers("/hash").hasRole("hash")
-				.requestMatchers("/**").permitAll()
-				.anyRequest().authenticated()
-			);
+		http.authorizeHttpRequests(
+				(authorize) -> authorize.requestMatchers("/com/arc/rediscluster/hash").authenticated()
+						.requestMatchers("/com/arc/rediscluster/user").permitAll().anyRequest().authenticated());
 		http.csrf(c -> c.disable());
-
+		http.httpBasic();
+		http.authenticationProvider(authenticationProvider());
 		return http.build();
 	}
-	
-	public DaoAuthenticationProvider daoAuthenticationProvider()
-	{
-		
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(UserDetailsService);
-		authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
-		
-	}
-	
 
-	
 	@Bean
-	public PasswordEncoder passwordEncoder()
-	{
+	public DaoAuthenticationProvider authenticationProvider() {
+		System.out.println("Here");
+
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(detailsServiceImpl);
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+		return daoAuthenticationProvider;
+
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	
+
 }

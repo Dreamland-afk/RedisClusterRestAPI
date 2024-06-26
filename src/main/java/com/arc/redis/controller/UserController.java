@@ -1,6 +1,7 @@
 package com.arc.redis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,20 +29,14 @@ public class UserController  {
 		daoService.createUser(user);
 		System.out.println("User created successfully");
 	}
+	
+	
 
 	
-//	@GetMapping("/hash")
-//	public void hashGet()
-//	{
-//		User user = new User("abc", "t3mpt-c0n!c@l-d!v!d3", 1);
-//		
-//		Roles roles = new Roles("Admin");
-//		
-//		user.setRoles(roles);
-//		user.addRoles(roles);
-//		
-//		daoService.createUser(user);
-//		System.out.println("Hash mapping get request.");
-//	}
+	@GetMapping("/hash")
+	public void hashGet()
+	{
+		System.out.println("Hash mapping get request.");
+	}
 }
 
