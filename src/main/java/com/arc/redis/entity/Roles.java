@@ -35,7 +35,7 @@ public class Roles {
 	private User user;
 
 	public Roles(String roles) {
-		this.roles = roles;
+		this.roles = "ROLE_"+roles.toUpperCase();
 	}
 	
 	

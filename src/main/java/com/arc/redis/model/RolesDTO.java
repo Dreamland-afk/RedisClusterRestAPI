@@ -11,4 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RolesDTO {
     private String roles;
+    
 }

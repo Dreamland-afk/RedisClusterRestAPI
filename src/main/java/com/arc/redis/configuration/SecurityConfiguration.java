@@ -29,19 +29,18 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	
 		http.authorizeHttpRequests(
-				(authorize) -> authorize.requestMatchers("/com/arc/rediscluster/hash").authenticated()
+				(authorize) -> authorize.requestMatchers("/com/arc/rediscluster/hash").hasAnyRole("HASH","ADMIN")
 						.requestMatchers("/com/arc/rediscluster/user").permitAll().anyRequest().authenticated());
 		http.csrf(c -> c.disable());
-		http.httpBasic();
+		http.httpBasic( Customizer.withDefaults());
 		http.authenticationProvider(authenticationProvider());
 		return http.build();
 	}
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
-		System.out.println("Here");
-
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 		daoAuthenticationProvider.setUserDetailsService(detailsServiceImpl);
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
