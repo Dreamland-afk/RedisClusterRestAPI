@@ -13,7 +13,7 @@ import lombok.Data;
 public class BodyDTO {
 
 	private String key;
-	private String message;
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<InputDTO> data;
 }

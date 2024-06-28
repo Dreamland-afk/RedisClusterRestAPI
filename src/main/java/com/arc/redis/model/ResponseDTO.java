@@ -11,5 +11,6 @@ import lombok.Data;
 public class ResponseDTO {
 
 	private int statusCode;
+	private String message;
 	private List<BodyDTO> body;
 }

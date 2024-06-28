@@ -53,18 +53,19 @@ public class RedisOperationController {
 			}
 
 			bodyDTO.setKey(hashKey);
-			bodyDTO.setMessage("Data inserted successfully");
 			List<BodyDTO> bodyDTOs = new ArrayList<BodyDTO>();
 			bodyDTOs.add(bodyDTO);
 			responseDTO.setStatusCode(HttpStatus.OK.value());
+			responseDTO.setMessage("Data retrieved successfully");
 			responseDTO.setBody(bodyDTOs);
 
 		} catch (Exception e) {
 			bodyDTO.setKey(hashKey);
-			bodyDTO.setMessage("Data insertion failed : " + e.getMessage());
 			List<BodyDTO> bodyDTOs = new ArrayList<BodyDTO>();
 			bodyDTOs.add(bodyDTO);
 			responseDTO.setStatusCode(HttpStatus.NOT_FOUND.value());
+			responseDTO.setMessage("Data retrieved successfully");
+
 			responseDTO.setBody(bodyDTOs);
 		}
 
@@ -104,7 +105,6 @@ public class RedisOperationController {
 
 				BodyDTO bodyDTO = new BodyDTO();
 				bodyDTO.setKey(hashKey);
-				bodyDTO.setMessage("Data retrieved successfully");
 	            bodyDTO.setData(inputDTOs);
 	            
 	            bodyDTOs.add(bodyDTO);
@@ -113,13 +113,15 @@ public class RedisOperationController {
 
 			responseDTO.setStatusCode(HttpStatus.OK.value());
 	        responseDTO.setBody(bodyDTOs);
+			responseDTO.setMessage("Data retrieved successfully");
+
 
 		} catch (Exception e) {
 			bodyDTO.setKey(hashKey);
-			bodyDTO.setMessage("Data insertion failed : " + e.getMessage());
 			List<BodyDTO> bodyDTOs = new ArrayList<BodyDTO>();
 			bodyDTOs.add(bodyDTO);
 			responseDTO.setStatusCode(HttpStatus.NOT_FOUND.value());
+			responseDTO.setMessage("Data retrieved successfully");
 			responseDTO.setBody(bodyDTOs);
 		}
 
