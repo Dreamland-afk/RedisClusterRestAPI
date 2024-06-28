@@ -32,6 +32,7 @@ public class SecurityConfiguration {
 	
 		http.authorizeHttpRequests(
 				(authorize) -> authorize.requestMatchers("/com/arc/rediscluster/hash").hasAnyRole("HASH","ADMIN")
+						.requestMatchers("com/arc/redis/op/hash/").hasAnyRole("HASH")
 						.requestMatchers("/com/arc/rediscluster/user").permitAll().anyRequest().authenticated());
 		http.csrf(c -> c.disable());
 		http.httpBasic( Customizer.withDefaults());
