@@ -31,8 +31,8 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	
 		http.authorizeHttpRequests(
-				(authorize) -> authorize.requestMatchers("/com/arc/rediscluster/hash").hasAnyRole("HASH","ADMIN")
-						.requestMatchers("com/arc/redis/op/hash/").hasAnyRole("HASH")
+				(authorize) -> authorize
+						.requestMatchers("/com/arc/redis/op/").hasAnyRole("HASH")
 						.requestMatchers("/com/arc/rediscluster/user").permitAll().anyRequest().authenticated());
 		http.csrf(c -> c.disable());
 		http.httpBasic( Customizer.withDefaults());
